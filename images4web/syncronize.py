@@ -1,9 +1,14 @@
 from folder import *
 from PIL import Image
 from os import path, remove
+import settings
 
 class Syncronize:
-    def __init__(self, inputFolderPath, outputFolderPath):
+    def __init__(self, inputFolderPath, outputFolderPath, compressionQuality = ''):
+        if compressionQuality == '':
+            self.compressionQuality = settings.compressionQuality
+        else:
+            self.compressionQuality = compressionQuality
         self.InputFolder = InputFolder(inputFolderPath)
         self.OutputFolder = OutputFolder(outputFolderPath)
         self.what2sync()
@@ -38,5 +43,5 @@ class Syncronize:
     
     def compressImage(self, imagePath, outputImagePath):
         Im = Image.open(imagePath)
-        Im.save(outputImagePath, optimize=True, quality=30) 
+        Im.save(outputImagePath, optimize=True, quality=self.compressionQuality) 
 
