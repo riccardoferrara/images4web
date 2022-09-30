@@ -1,7 +1,7 @@
 from PIL import Image
-from os import path, remove
-from classes.folder import *
-from settings import parameters
+from os import path, remove, getcwd
+from . import folder
+from . import settings
 
 class Syncronize:
     def __init__(self, inputFolderPath, outputFolderPath, compressionQuality = ''):
@@ -9,8 +9,8 @@ class Syncronize:
             self.compressionQuality = parameters.compressionQuality
         else:
             self.compressionQuality = compressionQuality
-        self.InputFolder = InputFolder(inputFolderPath)
-        self.OutputFolder = OutputFolder(outputFolderPath)
+        self.InputFolder = folder.InputFolder(inputFolderPath)
+        self.OutputFolder = folder.OutputFolder(outputFolderPath)
         self.what2sync()
         self.syncCompress()
         self.syncDelete()
@@ -44,3 +44,13 @@ class Syncronize:
     def compressImage(self, imagePath, outputImagePath):
         Im = Image.open(imagePath)
         Im.save(outputImagePath, optimize=True, quality=self.compressionQuality) 
+
+
+
+def testSynrconize():
+    inputImagePath = path.join(getcwd(), 'src/images4web/images')
+    outputImagePath = path.join(inputImagePath, '.compressed4web')
+    Sync1 = Syncronize(inputImagePath, outputImagePath, compressionQuality=10)
+
+if __name__ == '__main__': 
+    testSynrconize()
