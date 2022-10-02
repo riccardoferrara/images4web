@@ -19,6 +19,7 @@ class compressTenTemplateImages(unittest.TestCase):
         files.deleteAllFilesInFolder(outputImagesFolderPath)
         compress.compressImage(inputImageFilePath, outputImageFilePath, compressionQuality)
         self.assertTrue(filecmp.cmp(outputImageFilePath, templateImageFilePath))
+        files.deleteAllFilesInFolder(outputImagesFolderPath)
 
     def test_compress_all_images_in_folder(self):
         files.deleteAllFilesInFolder(outputImagesFolderPath)
@@ -28,6 +29,7 @@ class compressTenTemplateImages(unittest.TestCase):
             outputImagePath = os.path.join(outputImagesFolderPath, (str(i) + '.JPG'))
             templateImagePath = os.path.join(templateImagesFolderPath, (str(i) + '.JPG'))
             self.assertTrue(filecmp.cmp(outputImagePath, templateImagePath)) 
+        files.deleteAllFilesInFolder(outputImagesFolderPath)
 
 
 if __name__ == '__main__':
