@@ -1,12 +1,12 @@
-from PIL import Image
 from os import path, remove, getcwd
 from . import folder
 from . import settings
+from . import compress
 
 class Syncronize:
     def __init__(self, inputFolderPath, outputFolderPath, compressionQuality = ''):
         if compressionQuality == '':
-            self.compressionQuality = parameters.compressionQuality
+            self.compressionQuality = settings.parameters.compressionQuality
         else:
             self.compressionQuality = compressionQuality
         self.InputFolder = folder.InputFolder(inputFolderPath)
@@ -21,9 +21,10 @@ class Syncronize:
         else:
             print('\nCompress images from folder %s:' % self.InputFolder.path)
             for i in self.loi2sync:
-                self.compressImage(
+                compress.compressImage(
                     path.join(self.InputFolder.path, i),
-                    path.join(self.OutputFolder.path, i)
+                    path.join(self.OutputFolder.path, i),
+                    self.compressionQuality
                 )
                 print('%s compressed' % i)
 
@@ -41,11 +42,6 @@ class Syncronize:
         self.loi2sync = list(set(self.InputFolder.loi) - set(self.OutputFolder.loi))
         self.loi2del = list(set(self.OutputFolder.loi) - set(self.InputFolder.loi))
     
-    def compressImage(self, imagePath, outputImagePath):
-        Im = Image.open(imagePath)
-        Im.save(outputImagePath, optimize=True, quality=self.compressionQuality) 
-
-
 
 def testSynrconize():
     inputImagePath = path.join(getcwd(), 'src/images4web/images')
